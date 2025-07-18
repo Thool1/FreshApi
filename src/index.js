@@ -3,6 +3,7 @@ import { articles } from "./data.js"; // ✅ fixed
 
 const app = express();
 const PORT = 3000;
+app.use(express.json())
 
 app.get('/', (req, res) => {
     res.json({ message: 'HelloBhau' });
@@ -21,9 +22,31 @@ app.get('/articles/:id', (req, res) => {
     }
 });
 
-// app.post('/articles', express.json(), (req, res) => {
+app.post('/articles', express.json(), (req, res) => {
+    const title = req.body.title
+    // articles.push({id:articles.length + 1,title,slug,content,excerpt,author})
+    const newArticle = {
+        id: articles.length + 1,
+        title,
+        slug,
+        content,
+        excerpt,
+        // author: {
+        //     id: articles.length + 100,         // ✅ Auto-generated author ID
+        //     name,
+        //     bio,
+        //     profilePicture
+        // },
+        category,
+        tags,
+        image,
+        publishedAt,
+        isFeatured
+    }
+    articles.push(newArticle);
+    res.json({ data: newArticle })
 
-// })
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
