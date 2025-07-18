@@ -3,6 +3,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Article from './models/Article.js'; // import MongoDB model
+// import Article from './models/Article.js'; // ✅ add this at the top
+
 
 dotenv.config(); // Load .env file
 
@@ -26,14 +28,25 @@ app.get('/', (req, res) => {
 });
 
 // GET all articles
+// app.get('/articles', async (req, res) => {
+//     try {
+//         const articles = await Article.find();
+//         res.json({ data: articles });
+//     } catch (err) {
+//         res.status(500).json({ error: 'Failed to fetch articles' });
+//     }
+// });
+
 app.get('/articles', async (req, res) => {
     try {
-        const articles = await Article.find();
+        const articles = await Article.find(); // fetch from MongoDB
         res.json({ data: articles });
-    } catch (err) {
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Failed to fetch articles' });
     }
 });
+
 
 // GET single article by ID
 app.get('/articles/:id', async (req, res) => {
