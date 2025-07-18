@@ -91,6 +91,23 @@ app.put('/articles/:id', async (req, res) => {
     }
 });
 
+app.patch('/articles/:id', async (req, res) => {
+    try {
+        const updatedArticle = await Article.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true }
+        );
+        if (updatedArticle) {
+            res.json({ data: updatedArticle });
+        } else {
+            res.status(404).json({ error: 'Article not found' });
+        }
+    } catch (err) {
+        res.status(400).json({ error: 'Failed to update article' });
+    }
+});
+
 // DELETE article by ID
 app.delete('/articles/:id', async (req, res) => {
     try {
