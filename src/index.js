@@ -23,7 +23,8 @@ app.get('/articles/:id', (req, res) => {
 });
 
 app.post('/articles', express.json(), (req, res) => {
-    const title = req.body.title
+    // const title = req.body.title
+    const { title, slug, content, excerpt, author, category, tags, image, publishedAt, isFeatured } = req.body
     // articles.push({id:articles.length + 1,title,slug,content,excerpt,author})
     const newArticle = {
         id: articles.length + 1,
@@ -38,7 +39,7 @@ app.post('/articles', express.json(), (req, res) => {
         //     profilePicture
         // },
         category,
-        tags,
+        // tags,
         image,
         publishedAt,
         isFeatured
