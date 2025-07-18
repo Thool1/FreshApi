@@ -25,6 +25,7 @@ app.get('/articles/:id', (req, res) => {
 app.post('/articles', express.json(), (req, res) => {
     // const title = req.body.title
     const { title, slug, content, excerpt, author, category, tags, image, publishedAt, isFeatured } = req.body
+    const { name, bio, profilePicture } = author;
     // articles.push({id:articles.length + 1,title,slug,content,excerpt,author})
     const newArticle = {
         id: articles.length + 1,
@@ -32,14 +33,14 @@ app.post('/articles', express.json(), (req, res) => {
         slug,
         content,
         excerpt,
-        // author: {
-        //     id: articles.length + 100,         // ✅ Auto-generated author ID
-        //     name,
-        //     bio,
-        //     profilePicture
-        // },
+        author: {
+            id: articles.length + 100,
+            name,
+            bio,
+            profilePicture
+        },
         category,
-        // tags,
+        tags,
         image,
         publishedAt,
         isFeatured
