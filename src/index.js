@@ -52,17 +52,58 @@ app.post('/articles', (req, res) => {
     res.json({ data: newArticle });
 });
 
+// app.put('/articles/:id', (req, res) => {
+//     const articleId = parseInt(req.params.id, 10);
+//     const articleIndex = articles.findIndex(a => a.id === articleId);
+//     if (articleIndex !== -1) {
+//         articles[articleIndex].title = req.body.title;
+//         res.json(articles[articleIndex]);
+//     } else {
+//         res.status(400).json({ error: "Article not found" });
+//     }
+// });
+
 app.put('/articles/:id', (req, res) => {
     const articleId = parseInt(req.params.id, 10);
     const articleIndex = articles.findIndex(a => a.id === articleId);
+
     if (articleIndex !== -1) {
-        articles[articleIndex].title = req.body.title;
-        res.json(articles[articleIndex]);
+        const {
+            title,
+            slug,
+            content,
+            excerpt,
+            author,
+            category,
+            tags,
+            image,
+            publishedAt,
+            isFeatured
+        } = req.body;
+
+        // Update the article fields
+        articles[articleIndex] = {
+            ...articles[articleIndex],
+            title,
+            slug,
+            content,
+            excerpt,
+            author: {
+                ...articles[articleIndex].author,
+                ...author
+            },
+            category,
+            tags,
+            image,
+            publishedAt,
+            isFeatured
+        };
+
+        res.json({ data: articles[articleIndex] });
     } else {
         res.status(400).json({ error: "Article not found" });
     }
 });
-
 app.delete('/articles/:id', (req, res) => {
     const articleId = parseInt(req.params.id, 10);
     const articleIndex = articles.findIndex(a => a.id === articleId);
