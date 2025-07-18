@@ -21,7 +21,7 @@ app.get('/articles/:id', (req, res) => {
     const articleId = parseInt(req.params.id, 10);
     const article = articles.find(article => article.id === articleId);
     if (article) {
-        res.json({ daat: article });
+        res.json({ data: article });
     } else {
         res.status(404).json({ Error: "Nothing Found" });
     }
