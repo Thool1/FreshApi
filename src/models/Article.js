@@ -16,6 +16,8 @@ const articleSchema = new mongoose.Schema({
   image: String,
   publishedAt: Date,
   isFeatured: Boolean
+}, {
+  timestamps: true  // 👈 adds createdAt and updatedAt automatically
 });
 
 const Article = mongoose.model('Article', articleSchema);

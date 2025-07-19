@@ -2,9 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Article from './models/Article.js'; // import MongoDB model
-// import Article from './models/Article.js'; // ✅ add this at the top
-
+import Article from './models/Article.js'; // MongoDB model
 
 dotenv.config(); // Load .env file
 
@@ -22,31 +20,21 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('✅ Connected to MongoDB Atlas'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Routes
+// Home route
 app.get('/', (req, res) => {
     res.json({ message: 'HelloBhau' });
 });
 
-// GET all articles
-// app.get('/articles', async (req, res) => {
-//     try {
-//         const articles = await Article.find();
-//         res.json({ data: articles });
-//     } catch (err) {
-//         res.status(500).json({ error: 'Failed to fetch articles' });
-//     }
-// });
-
+// ✅ GET all articles - Newest first
 app.get('/articles', async (req, res) => {
     try {
-        const articles = await Article.find(); // fetch from MongoDB
+        const articles = await Article.find().sort({ createdAt: -1 }); // Newest first
         res.json({ data: articles });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch articles' });
     }
 });
-
 
 // GET single article by ID
 app.get('/articles/:id', async (req, res) => {
@@ -91,6 +79,7 @@ app.put('/articles/:id', async (req, res) => {
     }
 });
 
+// PATCH (partial update) article by ID
 app.patch('/articles/:id', async (req, res) => {
     try {
         const updatedArticle = await Article.findByIdAndUpdate(
@@ -124,9 +113,10 @@ app.delete('/articles/:id', async (req, res) => {
 
 // 404 handler
 app.use((req, res) => {
-    res.status(404).json({ Error: 'Nothing Found' });
+    res.status(404).json({ error: 'Nothing Found' });
 });
 
+// Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
