@@ -36,6 +36,17 @@ app.get('/articles', async (req, res) => {
     }
 });
 
+// ✅ NEW: GET editor-picked articles only
+app.get('/editors-pick', async (req, res) => {
+    try {
+        const editorsPicks = await Article.find({ isEditorsPick: true }).sort({ createdAt: -1 });
+        res.json({ data: editorsPicks });
+    } catch (error) {
+        console.error('Failed to fetch editor-picked articles:', error);
+        res.status(500).json({ error: 'Failed to fetch editor-picked articles' });
+    }
+});
+
 // GET single article by ID
 app.get('/articles/:id', async (req, res) => {
     try {

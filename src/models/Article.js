@@ -15,9 +15,13 @@ const articleSchema = new mongoose.Schema({
   tags: [String],
   image: String,
   publishedAt: Date,
-  isFeatured: Boolean
+  isFeatured: Boolean,
+  isEditorsPick: {
+    type: Boolean,
+    default: false
+  }
 }, {
-  timestamps: true  // 👈 adds createdAt and updatedAt automatically
+  timestamps: true // 👈 adds createdAt and updatedAt automatically
 });
 
 const Article = mongoose.model('Article', articleSchema);
