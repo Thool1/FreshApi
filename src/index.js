@@ -17,8 +17,8 @@ mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('✅ Connected to MongoDB Atlas'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+    .then(() => console.log('✅ Connected to MongoDB Atlas'))
+    .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Home route
 app.get('/', (req, res) => {
@@ -46,7 +46,16 @@ app.get('/editors-pick', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch editor-picked articles' });
     }
 });
-
+// ✅ NEW: GET trending articles only
+app.get('/trending', async (req, res) => {
+    try {
+        const trendingArticles = await Article.find({ isTrending: true }).sort({ createdAt: -1 });
+        res.json({ data: trendingArticles });
+    } catch (error) {
+        console.error('Failed to fetch trending articles:', error);
+        res.status(500).json({ error: 'Failed to fetch trending articles' });
+    }
+});
 // GET single article by ID
 app.get('/articles/:id', async (req, res) => {
     try {
