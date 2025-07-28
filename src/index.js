@@ -36,7 +36,7 @@ app.get('/articles', async (req, res) => {
     }
 });
 
-// ✅ NEW: GET editor-picked articles only
+// ✅ GET editor-picked articles
 app.get('/editors-pick', async (req, res) => {
     try {
         const editorsPicks = await Article.find({ isEditorsPick: true }).sort({ createdAt: -1 });
@@ -46,8 +46,9 @@ app.get('/editors-pick', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch editor-picked articles' });
     }
 });
-// ✅ NEW: GET trending articles only
-app.get('/articles/trending', async (req, res) => {
+
+// ✅ GET trending articles (isTrending: true)
+app.get('/trending', async (req, res) => {
     try {
         const trendingArticles = await Article.find({ isTrending: true }).sort({ createdAt: -1 });
         res.json({ data: trendingArticles });
@@ -56,7 +57,8 @@ app.get('/articles/trending', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch trending articles' });
     }
 });
-// GET single article by ID
+
+// ✅ GET single article by ID
 app.get('/articles/:id', async (req, res) => {
     try {
         const article = await Article.findById(req.params.id);
@@ -70,7 +72,7 @@ app.get('/articles/:id', async (req, res) => {
     }
 });
 
-// POST new article
+// ✅ POST new article
 app.post('/articles', async (req, res) => {
     try {
         const newArticle = new Article(req.body);
@@ -81,7 +83,7 @@ app.post('/articles', async (req, res) => {
     }
 });
 
-// PUT (update) article by ID
+// ✅ PUT (update) article by ID
 app.put('/articles/:id', async (req, res) => {
     try {
         const updatedArticle = await Article.findByIdAndUpdate(
@@ -99,7 +101,7 @@ app.put('/articles/:id', async (req, res) => {
     }
 });
 
-// PATCH (partial update) article by ID
+// ✅ PATCH (partial update) article by ID
 app.patch('/articles/:id', async (req, res) => {
     try {
         const updatedArticle = await Article.findByIdAndUpdate(
@@ -117,7 +119,7 @@ app.patch('/articles/:id', async (req, res) => {
     }
 });
 
-// DELETE article by ID
+// ✅ DELETE article by ID
 app.delete('/articles/:id', async (req, res) => {
     try {
         const deletedArticle = await Article.findByIdAndDelete(req.params.id);

@@ -19,6 +19,10 @@ const articleSchema = new mongoose.Schema({
   isEditorsPick: {
     type: Boolean,
     default: false
+  },
+  isTrending: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true // 👈 adds createdAt and updatedAt automatically
