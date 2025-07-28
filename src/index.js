@@ -47,7 +47,7 @@ app.get('/editors-pick', async (req, res) => {
     }
 });
 // ✅ NEW: GET trending articles only
-app.get('/trending', async (req, res) => {
+app.get('articles/trending', async (req, res) => {
     try {
         const trendingArticles = await Article.find({ isTrending: true }).sort({ createdAt: -1 });
         res.json({ data: trendingArticles });
