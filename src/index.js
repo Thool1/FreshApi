@@ -58,6 +58,17 @@ app.get('/trending', async (req, res) => {
     }
 });
 
+// ✅ GET sports articles (category: "Sports")
+app.get('/sports', async (req, res) => {
+    try {
+        const sportsArticles = await Article.find({ category: 'Sports' }).sort({ createdAt: -1 });
+        res.json({ data: sportsArticles });
+    } catch (error) {
+        console.error('Failed to fetch sports articles:', error);
+        res.status(500).json({ error: 'Failed to fetch sports articles' });
+    }
+});
+
 // ✅ GET single article by ID
 app.get('/articles/:id', async (req, res) => {
     try {

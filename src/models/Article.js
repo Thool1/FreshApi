@@ -1,21 +1,59 @@
 import mongoose from 'mongoose';
 
 const articleSchema = new mongoose.Schema({
-  title: String,
-  slug: String,
-  content: String,
-  excerpt: String,
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  excerpt: {
+    type: String,
+    required: true
+  },
   author: {
-    id: Number,
-    name: String,
+    id: {
+      type: Number,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
     bio: String,
     profilePicture: String
   },
-  category: String,
-  tags: [String],
-  image: String,
-  publishedAt: Date,
-  isFeatured: Boolean,
+  category: {
+    type: String,
+    required: true,
+    trim: true,
+    // enum: ['Sports', 'Politics', 'Entertainment', 'Business', 'Tech', 'Lifestyle', 'Other']
+  },
+  tags: {
+    type: [String],
+    default: []
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  publishedAt: {
+    type: Date,
+    default: Date.now
+  },
+  isFeatured: {
+    type: Boolean,
+    default: false
+  },
   isEditorsPick: {
     type: Boolean,
     default: false
@@ -25,7 +63,7 @@ const articleSchema = new mongoose.Schema({
     default: false
   }
 }, {
-  timestamps: true // 👈 adds createdAt and updatedAt automatically
+  timestamps: true // adds createdAt and updatedAt
 });
 
 const Article = mongoose.model('Article', articleSchema);
