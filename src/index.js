@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 // ✅ GET all articles - Newest first
 app.get('/articles', async (req, res) => {
     try {
-        const articles = await Article.find().sort({ createdAt: -1 }); // Newest first
+        const articles = await Article.find().sort({ createdAt: -1 });
         res.json({ data: articles });
     } catch (error) {
         console.error(error);
@@ -66,6 +66,28 @@ app.get('/sports', async (req, res) => {
     } catch (error) {
         console.error('Failed to fetch sports articles:', error);
         res.status(500).json({ error: 'Failed to fetch sports articles' });
+    }
+});
+
+// ✅ GET magazine articles (category: "Magazine")
+app.get('/magazine', async (req, res) => {
+    try {
+        const magazineArticles = await Article.find({ category: 'Magazine' }).sort({ createdAt: -1 });
+        res.json({ data: magazineArticles });
+    } catch (error) {
+        console.error('Failed to fetch magazine articles:', error);
+        res.status(500).json({ error: 'Failed to fetch magazine articles' });
+    }
+});
+
+// ✅ GET entertainment articles (category: "Entertainment")
+app.get('/entertainment', async (req, res) => {
+    try {
+        const entertainmentArticles = await Article.find({ category: 'Entertainment' }).sort({ createdAt: -1 });
+        res.json({ data: entertainmentArticles });
+    } catch (error) {
+        console.error('Failed to fetch entertainment articles:', error);
+        res.status(500).json({ error: 'Failed to fetch entertainment articles' });
     }
 });
 

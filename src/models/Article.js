@@ -36,7 +36,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    // enum: ['Sports', 'Politics', 'Entertainment', 'Business', 'Tech', 'Lifestyle', 'Other']
+    enum: ['Sports', 'Entertainment', 'Magazine', 'Business', 'Politics', 'Tech', 'Lifestyle', 'Other']
   },
   tags: {
     type: [String],
