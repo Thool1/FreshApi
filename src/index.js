@@ -91,6 +91,19 @@ app.get('/entertainment', async (req, res) => {
     }
 });
 
+// ✅ GET best of articles (bestOf: true, limit 5)
+app.get('/bestof', async (req, res) => {
+    try {
+        const bestOfArticles = await Article.find({ bestOf: true })
+            .sort({ createdAt: -1 })
+            .limit(5);
+        res.json({ data: bestOfArticles });
+    } catch (error) {
+        console.error('Failed to fetch best of articles:', error);
+        res.status(500).json({ error: 'Failed to fetch best of articles' });
+    }
+});
+
 // ✅ GET single article by ID
 app.get('/articles/:id', async (req, res) => {
     try {

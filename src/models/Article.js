@@ -61,6 +61,10 @@ const articleSchema = new mongoose.Schema({
   isTrending: {
     type: Boolean,
     default: false
+  },
+  bestOf: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true // adds createdAt and updatedAt
