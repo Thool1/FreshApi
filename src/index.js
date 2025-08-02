@@ -39,7 +39,9 @@ app.get('/articles', async (req, res) => {
 // ✅ GET editor-picked articles
 app.get('/editors-pick', async (req, res) => {
     try {
-        const editorsPicks = await Article.find({ isEditorsPick: true }).sort({ createdAt: -1 });
+        const editorsPicks = await Article.find({ isEditorsPick: true })
+            .sort({ createdAt: -1 })
+            .limit(3)
         res.json({ data: editorsPicks });
     } catch (error) {
         console.error('Failed to fetch editor-picked articles:', error);
