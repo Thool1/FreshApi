@@ -1,5 +1,6 @@
 {
-  "name": "youtubeapi",
+  "name": "freshapi",
   "main": "src/index.js",
-  "compatibility_date": "2025-08-24"
+  "compatibility_date": "2025-08-24",
+  "compatibility_flags": ["nodejs_compat"]
 }
