@@ -75,7 +75,7 @@ const articleSchema = new mongoose.Schema({
   //   }
   // },
 bollywood: {
-  isBollywood : false,
+  isBollywood: { type: Boolean, default: false },
   title: { type: String, default: null },
   language: { type: String, default: null },
   releaseDate: { type: String, default: null },
