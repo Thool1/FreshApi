@@ -1,3 +1,4 @@
+// models/article.js
 import mongoose from 'mongoose';
 
 const articleSchema = new mongoose.Schema({
@@ -36,7 +37,17 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    enum: ['Sports', 'Entertainment', 'Magazine', 'Business', 'Politics', 'Tech', 'Lifestyle', 'Other']
+    enum: [
+      'Sports',
+      'Entertainment',
+      'Bollywood', // ✅ Added Bollywood category
+      'Magazine',
+      'Business',
+      'Politics',
+      'Tech',
+      'Lifestyle',
+      'Other'
+    ]
   },
   tags: {
     type: [String],
@@ -50,7 +61,22 @@ const articleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  isFeatured: {
+
+  // ✅ Bollywood schema merged
+  bollywood: {
+    boxOffice: {
+      budget: { type: String, default: null }, // e.g., "₹100 Crore"
+      collection: { type: String, default: null }, // e.g., "₹300 Crore"
+      verdict: { type: String, default: null } // e.g., "Blockbuster"
+    },
+    celebrity: {
+      name: { type: String, default: null }, // e.g., "Ranveer Singh"
+      profession: { type: String, default: null } // e.g., "Actor"
+    }
+  },
+
+  // ✅ Common flags
+  featured: { // renamed back from isFeatured
     type: Boolean,
     default: false
   },
@@ -66,6 +92,7 @@ const articleSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
+
 }, {
   timestamps: true // adds createdAt and updatedAt
 });
