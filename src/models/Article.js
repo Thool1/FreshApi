@@ -63,18 +63,45 @@ const articleSchema = new mongoose.Schema({
   },
 
   // ✅ Bollywood schema merged
-  bollywood: {
-    boxOffice: {
-      budget: { type: String, default: null }, // e.g., "₹100 Crore"
-      collection: { type: String, default: null }, // e.g., "₹300 Crore"
-      verdict: { type: String, default: null } // e.g., "Blockbuster"
-    },
-    celebrity: {
-      name: { type: String, default: null }, // e.g., "Ranveer Singh"
-      profession: { type: String, default: null } // e.g., "Actor"
-    }
+  // bollywood: {
+  //   boxOffice: {
+  //     budget: { type: String, default: null }, // e.g., "₹100 Crore"
+  //     collection: { type: String, default: null }, // e.g., "₹300 Crore"
+  //     verdict: { type: String, default: null } // e.g., "Blockbuster"
+  //   },
+  //   celebrity: {
+  //     name: { type: String, default: null }, // e.g., "Ranveer Singh"
+  //     profession: { type: String, default: null } // e.g., "Actor"
+  //   }
+  // },
+bollywood: {
+  title: { type: String, default: null },
+  language: { type: String, default: null },
+  releaseDate: { type: String, default: null },
+  cast: { type: String, default: null },
+  director: { type: String, default: null },
+  genre: { type: String, default: null },
+  plotSummary: { type: String, default: null },
+  whatWorks: { type: String, default: null },
+  whatDoesntWork: { type: String, default: null },
+  finalVerdict: { type: String, default: null },
+
+  boxOffice: {
+    budget: { type: String, default: null }, // e.g., "₹100 Crore"
+    dailyCollection: [
+      {
+        day: { type: String },       // e.g., "Day 1 (Friday)"
+        collection: { type: String } // e.g., "₹7 Cr"
+      }
+    ],
+    verdict: { type: String, default: null } // e.g., "Blockbuster", "Hit"
   },
 
+  celebrity: {
+    name: { type: String, default: null },      // e.g., "Ranveer Singh"
+    profession: { type: String, default: null } // e.g., "Actor"
+  }
+},
   // ✅ Common flags
   featured: { // renamed back from isFeatured
     type: Boolean,
