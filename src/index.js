@@ -51,6 +51,17 @@ app.get('/editors-pick', async (req, res) => {
     }
 });
 
+app.get('/editorsPick', async (req, res) => {
+    try {
+        const editorsPicks = await Article.find({ isEditorsPick: true })
+            .sort({ createdAt: -1 })
+        res.json({ data: editorsPicks });
+    } catch (error) {
+        console.error('Failed to fetch editor-picked articles:', error);
+        res.status(500).json({ error: 'Failed to fetch editor-picked articles' });
+    }
+});
+
 // ✅ GET trending articles (isTrending: true)
 app.get('/trending', async (req, res) => {
     try {
