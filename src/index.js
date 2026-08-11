@@ -7,18 +7,18 @@ import Article from './models/Article.js'; // MongoDB model
 dotenv.config(); // Load .env file
 
 const app = express();
-// const PORT = 3000;
 const PORT = process.env.PORT || 3000;
-
 
 app.use(cors());
 app.use(express.json());
 
+// Guard: make sure MONGODB_URI is set
+if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not set in .env');
+}
+
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('✅ Connected to MongoDB Atlas'))
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
@@ -38,23 +38,12 @@ app.get('/articles', async (req, res) => {
     }
 });
 
-// ✅ GET editor-picked articles
+// ✅ GET editor-picked articles (limited to 3, for homepage display)
 app.get('/editors-pick', async (req, res) => {
     try {
         const editorsPicks = await Article.find({ isEditorsPick: true })
             .sort({ createdAt: -1 })
-            .limit(3)
-        res.json({ data: editorsPicks });
-    } catch (error) {
-        console.error('Failed to fetch editor-picked articles:', error);
-        res.status(500).json({ error: 'Failed to fetch editor-picked articles' });
-    }
-});
-
-app.get('/editorsPick', async (req, res) => {
-    try {
-        const editorsPicks = await Article.find({ isEditorsPick: true })
-            .sort({ createdAt: -1 })
+            .limit(3);
         res.json({ data: editorsPicks });
     } catch (error) {
         console.error('Failed to fetch editor-picked articles:', error);
@@ -203,66 +192,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
-
-
-
-
-
-
-// import express from 'express';
-// import cors from 'cors';
-// import mongoose from 'mongoose';
-// import dotenv from 'dotenv';
-// import Article from './models/Article.js'; // MongoDB model
-
-// dotenv.config(); // Load .env file
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// app.use(cors());
-// app.use(express.json());
-
-// // ===== MODIFICATION START =====
-// // Temporary log to verify environment variable for MongoDB
-// console.log("Mongo URI (for debug):", process.env.MONGODB_URI);
-// // ===== MODIFICATION END =====
-
-// // Connect to MongoDB
-// mongoose.connect(process.env.MONGODB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// })
-//     .then(() => console.log('✅ Connected to MongoDB Atlas'))
-//     .catch(err => console.error('❌ MongoDB connection error:', err));
-
-// // Home route
-// app.get('/', (req, res) => {
-//     res.json({ message: 'HelloBhau' });
-// });
-
-// // ===== ROUTES REMAIN UNCHANGED =====
-
-// // GET all articles - Newest first
-// app.get('/articles', async (req, res) => {
-//     try {
-//         const articles = await Article.find().sort({ createdAt: -1 });
-//         res.json({ data: articles });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Failed to fetch articles' });
-//     }
-// });
-
-// // ... rest of your routes remain unchanged ...
-
-// // 404 handler
-// app.use((req, res) => {
-//     res.status(404).json({ error: 'Nothing Found' });
-// });
-
-// // Start server
-// app.listen(PORT, () => {
-//     console.log(`🚀 Server is running at http://localhost:${PORT}`);
-// });
-
