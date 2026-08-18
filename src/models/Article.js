@@ -1,4 +1,3 @@
-// models/article.js
 import mongoose from 'mongoose';
 
 const articleSchema = new mongoose.Schema({
@@ -40,7 +39,7 @@ const articleSchema = new mongoose.Schema({
     enum: [
       'Sports',
       'Entertainment',
-      'Bollywood', // ✅ Added Bollywood category
+      'Bollywood',
       'Magazine',
       'Business',
       'Politics',
@@ -62,49 +61,39 @@ const articleSchema = new mongoose.Schema({
     default: Date.now
   },
 
-  // ✅ Bollywood schema merged
-  // bollywood: {
-  //   boxOffice: {
-  //     budget: { type: String, default: null }, // e.g., "₹100 Crore"
-  //     collection: { type: String, default: null }, // e.g., "₹300 Crore"
-  //     verdict: { type: String, default: null } // e.g., "Blockbuster"
-  //   },
-  //   celebrity: {
-  //     name: { type: String, default: null }, // e.g., "Ranveer Singh"
-  //     profession: { type: String, default: null } // e.g., "Actor"
-  //   }
-  // },
-bollywood: {
-  isBollywood: { type: Boolean, default: false },
-  title: { type: String, default: null },
-  language: { type: String, default: null },
-  releaseDate: { type: String, default: null },
-  cast: { type: String, default: null },
-  director: { type: String, default: null },
-  genre: { type: String, default: null },
-  plotSummary: { type: String, default: null },
-  whatWorks: { type: String, default: null },
-  whatDoesntWork: { type: String, default: null },
-  finalVerdict: { type: String, default: null },
+  // Bollywood-specific fields are used when category is "Bollywood".
+  // The top-level category is the single source of truth; there is no
+  // duplicate isBollywood flag.
+  bollywood: {
+    title: { type: String, default: null },
+    language: { type: String, default: null },
+    releaseDate: { type: Date, default: null },
+    cast: { type: String, default: null },
+    director: { type: String, default: null },
+    genre: { type: String, default: null },
+    plotSummary: { type: String, default: null },
+    whatWorks: { type: String, default: null },
+    whatDoesntWork: { type: String, default: null },
+    finalVerdict: { type: String, default: null },
 
-  boxOffice: {
-    budget: { type: String, default: null }, // e.g., "₹100 Crore"
-    dailyCollection: [
-      {
-        day: { type: String },       // e.g., "Day 1 (Friday)"
-        collection: { type: String } // e.g., "₹7 Cr"
-      }
-    ],
-    verdict: { type: String, default: null } // e.g., "Blockbuster", "Hit"
+    boxOffice: {
+      budget: { type: String, default: null },
+      dailyCollection: [
+        {
+          day: { type: String, required: true },
+          collection: { type: String, required: true }
+        }
+      ],
+      verdict: { type: String, default: null }
+    },
+
+    celebrity: {
+      name: { type: String, default: null },
+      profession: { type: String, default: null }
+    }
   },
 
-  celebrity: {
-    name: { type: String, default: null },      // e.g., "Ranveer Singh"
-    profession: { type: String, default: null } // e.g., "Actor"
-  }
-},
-  // ✅ Common flags
-  featured: { // renamed back from isFeatured
+  featured: {
     type: Boolean,
     default: false
   },
@@ -120,9 +109,8 @@ bollywood: {
     type: Boolean,
     default: false
   }
-
 }, {
-  timestamps: true // adds createdAt and updatedAt
+  timestamps: true
 });
 
 const Article = mongoose.model('Article', articleSchema);
